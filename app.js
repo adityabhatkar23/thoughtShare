@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+require('dotenv').config();
+
 
 const path = require("path");
 const bcrypt = require("bcrypt");
@@ -145,6 +147,8 @@ function genAvt(seed) {
 }
 
 // port
-app.listen(3000, () => {
-  console.log("server runnning on http://localhost:3000");
+
+const PORT =  process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`server runnning on http://localhost:${PORT}`);
 });

@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
+const mongoURI = process.env.MONGODB_URI;
 
-mongoose
-  .connect("mongodb://localhost:27017/postApp")
-  .then(() => console.log("MongoDB Connection Succeeded."))
-  .catch((err) => console.log("Error in DB connection: " + err));
 
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.log(err));
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
