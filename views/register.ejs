@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/stylesheets/output.css" />
+  <title>Registration Form</title>
+</head>
+
+<body class="bg-gray-900 h-screen flex items-center justify-center">
+  <div class="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-100">
+      Create Account
+    </h2>
+    <% if (registerError) { %>
+      <div class="bg-green-600 text-white text-center p-2 rounded mb-4">
+        <%= registerError %>
+      </div>
+    <% } %>
+
+
+    <form action="/registerUser" method="POST">
+      <div class="mb-4">
+        <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Full Name</label>
+        <input required type="text" id="name" name="name" placeholder="Enter your full name"
+          class="w-full p-3 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
+        <input required type="email" id="email" name="email" placeholder="Enter your email"
+          class="w-full p-3 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-300 text-sm font-bold mb-2">Password</label>
+        <input required type="password" id="password" name="password" placeholder="Enter your password"
+          class="w-full p-3 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div class="mb-6">
+        <label for="confirm-password" class="block text-gray-300 text-sm font-bold mb-2">Confirm Password</label>
+        <input required type="password" id="confirm-password" name="confirm_password"
+          placeholder="Confirm your password"
+          class="w-full p-3 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+      </div>
+
+      <div class="flex items-center mb-6">
+        <input required type="checkbox" id="terms" name="terms"
+          class="h-4 w-4 text-blue-600 focus:ring-blue-400 border-gray-600 rounded" />
+        <label for="terms" class="ml-2 block text-sm text-gray-300">I agree to the
+          <a href="#" class="text-blue-400 hover:underline">terms and conditions</a></label>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        Sign Up
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-gray-400">
+      Already have an account?
+      <a href="/login" class="text-blue-400 hover:underline">Log in</a>
+    </p>
+  </div>
+</body>
+
+</html>

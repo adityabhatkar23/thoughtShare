@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/output.css">
+  <title>Login Form</title>
+</head>
+<body class="bg-gray-900 h-screen flex items-center justify-center">
+
+  <div class="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-100">Login</h2>
+    
+    
+    <% if (loginError) { %>
+      <div class="bg-red-600 text-white text-center p-2 rounded mb-4">
+        <%= loginError %>
+      </div>
+    <% } %>
+
+    <form action="/loginUser" method="POST">
+      <div class="mb-4">
+        <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email"
+          class="w-full p-3 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+      </div>
+
+      <div class="mb-6">
+        <label for="password" class="block text-gray-300 text-sm font-bold mb-2">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password"
+          class="w-full p-3 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+      </div>
+
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center">
+          <input type="checkbox" id="remember" name="remember"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-400 border-gray-600 rounded">
+          <label for="remember" class="ml-2 block text-sm text-gray-300">Remember me</label>
+        </div>
+        <a href="#" class="text-sm text-blue-400 hover:underline">Forgot password?</a>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        Login
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-gray-400">
+      Don't have an account? <a href="/register" class="text-blue-400 hover:underline">Sign up</a>
+    </p>
+  </div>
+
+</body>
+</html>

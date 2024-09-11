@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thought Sharing App</title>
+    <link rel="stylesheet" href="/fonts/remixicon.css" />
+    <link rel="stylesheet" href="/stylesheets/output.css" />
+  </head>
+
+  <body class="bg-gray-900 h-screen flex flex-col items-center justify-start">
+    <header class="w-full text-gray-100 text-center py-8">
+      <h1 class="text-4xl font-bold tracking-wide">Thought Sharing App</h1>
+    </header>
+
+    <main
+      class="w-full max-w-3xl mx-auto mt-8 p-8 bg-gray-800 shadow-lg rounded-lg"
+    >
+      <form class="mb-8" action="/post" method="POST">
+        <div class="mb-6">
+          <label
+            for="thought"
+            class="block text-lg font-medium text-gray-300 mb-2"
+            >Share Your Thought</label
+          >
+          <textarea
+            name="content"
+            id="thought"
+            rows="4"
+            class="resize-none w-full p-4 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-150"
+            placeholder="What's on your mind?"
+          ></textarea>
+        </div>
+        <div class="text-right">
+          <button
+            type="submit"
+            class="w-full bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform transform hover:scale-105"
+          >
+            Post Thought
+          </button>
+        </div>
+      </form>
+
+      <section id="thought-list">
+        <h2 class="text-2xl font-semibold text-gray-100 mb-6">
+          Recent Thoughts
+        </h2>
+        <% if (posts.length> 0) { %> <% posts.reverse().forEach(post=> { %>
+        <div
+          class="flex items-start bg-gray-700 p-5 border border-gray-600 rounded-lg mb-6 shadow-md hover:shadow-lg transition-shadow duration-300"
+        >
+          <img
+            src="<%= post.user.image %>"
+            alt="User avatar"
+            class="w-14 h-14 rounded-full mr-4"
+          />
+          <div class="flex-1">
+            <p class="text-gray-300 text-lg mb-2"><%= post.content %></p>
+            <div class="flex items-center mb-2">
+              <a
+                class="text-blue-400 hover:text-blue-500 mr-4"
+                href="#"
+                onclick="openEditModal('<%= post.id %>', '<%= post.content %>')"
+              >
+                <i class="ri-pencil-line text-xl"></i>
+              </a>
+              <a
+                class="text-red-400 hover:text-red-500"
+                href="/delete/<%= post.id %>"
+              >
+                <i class="ri-delete-bin-7-line text-xl"></i>
+              </a>
+            </div>
+
+            <div class="flex items-center text-gray-400 text-sm">
+              <a
+                class="flex items-center text-blue-400 hover:text-blue-500 mr-4"
+                href="/like/<%= post.id %>"
+              >
+                <i class="ri-heart-3-fill text-red-500 text-2xl hidden"></i>
+
+                <i class="ri-heart-3-line text-red-100 text-2xl"></i>
+
+                <span class="ml-1"> <%= post.likes.length %> </span>
+              </a>
+            </div>
+
+            <h4 class="text-gray-100 font-semibold text-md mr-4">
+              @<%= post.user.name %>
+            </h4>
+            <span class="text-gray-500 text-sm"></span>
+          </div>
+        </div>
+
+        <% }); %> <% } else { %>
+
+        <p class="text-gray-300 text-center">No posts yet</p>
+
+        <% } %>
+      </section>
+    </main>
+
+    <!-- Edit Modal -->
+    <div class="hidden" id="editModal">
+      <div
+        class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center"
+      >
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-3/4 max-w-lg">
+          <h2 class="text-xl font-semibold text-gray-100 mb-4">Edit Thought</h2>
+          <form id="editForm" method="POST" action="/edit/:<%= posts.id %>">
+            <input type="hidden" name="postId" id="editPostId" />
+            <textarea
+              name="content"
+              id="editContent"
+              rows="4"
+              class="resize-none w-full p-4 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-150"
+              placeholder="Edit your thought here..."
+            ></textarea>
+
+            <div class="text-right mt-4">
+              <button
+                type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform transform hover:scale-105"
+              >
+                Save Changes
+              </button>
+              <button
+                type="button"
+                class="ml-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-transform transform hover:scale-105"
+                onclick="closeEditModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function openEditModal(postId, currentContent) {
+        document.getElementById("editForm").action = `/edit/${postId}`;
+        document.getElementById("editPostId").value = postId;
+        document.getElementById("editContent").value = currentContent;
+        document.getElementById("editModal").classList.remove("hidden");
+      }
+
+      function closeEditModal() {
+        document.getElementById("editModal").classList.add("hidden");
+      }
+    </script>
+  </body>
+</html>
