@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const mongoURI = process.env.MONGODB_URI;
 
 
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect(mongoURI)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log(err));
 const userSchema = new mongoose.Schema({

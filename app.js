@@ -49,9 +49,9 @@ app.post("/registerUser", async (req, res) => {
 
       const token = jwt.sign({ email }, "secret");
       res.cookie("token", token, { httpOnly: true });
+      res.redirect("/home");
     });
   });
-  res.redirect("/home");
 });
 
 app.post("/loginUser", async (req, res) => {
@@ -65,7 +65,7 @@ app.post("/loginUser", async (req, res) => {
   bcrypt.compare(password, user.password, (err, result) => {
     if (result) {
       const token = jwt.sign({ email }, "secret");
-      res.cookie("token", token);
+      res.cookie("token", token , { httpOnly: true });
       res.redirect("/home");
     } else {
       return res.render("login", { loginError: "Invalid email or password" });
@@ -74,7 +74,7 @@ app.post("/loginUser", async (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-  res.cookie("token", " ");
+  res.cookie("token", "",{ maxAge: 0, httpOnly: true });
   res.redirect("/login");
 });
 
@@ -106,7 +106,7 @@ app.get("/like/:id", isLog, async (req, res) => {
   if (!post.likes.includes(req.user._id)) {
     post.likes.push(req.user._id);
   } else {
-    post.likes.splice(post.likes.indexOf(req.user.userid), 1);
+    post.likes.splice(post.likes.indexOf(req.userid), 1);
   }
 
   await post.save();
