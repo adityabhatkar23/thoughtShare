@@ -13,12 +13,12 @@
     
     
     <% if (loginError) { %>
-      <div class="bg-red-600 text-white text-center p-2 rounded mb-4">
+      <div class="bg-red-600 text-white text-center p-2 rounded mb-4" id="loginError">
         <%= loginError %>
       </div>
     <% } %>
 
-    <form action="/loginUser" method="POST">
+    <form action="/login" method="POST">
       <div class="mb-4">
         <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
         <input type="email" id="email" name="email" placeholder="Enter your email"
@@ -51,5 +51,14 @@
     </p>
   </div>
 
+  <script>
+    
+    setTimeout(function() {
+      const loginError = document.getElementById('loginError');
+      if (loginError) {
+        loginError.classList.add('hidden'); 
+      }
+    }, 5000); 
+  </script>
 </body>
 </html>

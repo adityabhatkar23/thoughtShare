@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const mongoURI = process.env.MONGODB_URI;
+const mongoURL = process.env.MONGODB_URL;
 
-
-mongoose.connect(mongoURI)
+mongoose.connect(mongoURL)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log(err));
+
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,

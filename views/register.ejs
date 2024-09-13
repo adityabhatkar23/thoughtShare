@@ -13,14 +13,22 @@
     <h2 class="text-2xl font-bold text-center mb-6 text-gray-100">
       Create Account
     </h2>
-    <% if (registerError) { %>
-      <div class="bg-green-600 text-white text-center p-2 rounded mb-4">
-        <%= registerError %>
-      </div>
-    <% } %>
+
+<% if (registerError1) { %>
+  <div id="registerError1" class="bg-green-600 text-white text-center p-2 rounded mb-4">
+    <%= registerError1 %>
+  </div>
+<% } %>
+
+<% if (registerError2) { %>
+  <div id="registerError2" class="bg-red-600 text-white text-center p-2 rounded mb-4">
+    <%= registerError2 %>
+  </div>
+<% } %>
 
 
-    <form action="/registerUser" method="POST">
+
+    <form action="/register" method="POST">
       <div class="mb-4">
         <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Full Name</label>
         <input required type="text" id="name" name="name" placeholder="Enter your full name"
@@ -37,6 +45,7 @@
         <label for="password" class="block text-gray-300 text-sm font-bold mb-2">Password</label>
         <input required type="password" id="password" name="password" placeholder="Enter your password"
           class="w-full p-3 border border-gray-700 bg-gray-700 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+          <p id="passwordError" class="text-red-500 text-sm mt-2"></p>
       </div>
 
       <div class="mb-6">
@@ -64,6 +73,51 @@
       <a href="/login" class="text-blue-400 hover:underline">Log in</a>
     </p>
   </div>
+
+
+
+  <script>
+    
+    setTimeout(function() {
+      const registerError1 = document.getElementById('registerError1');
+      const registerError2 = document.getElementById('registerError2');
+      if (registerError1) {
+        registerError1.classList.add('hidden'); 
+      }
+      if (registerError2) {
+        registerError2.classList.add('hidden');
+      }
+    }, 5000); 
+
+    
+    
+    const passStrength = (pass) =>{
+      const minLen =8;
+      const uppercase = /[A-Z]/
+      const lowercase = /[a-z]/
+      const number = /[0-9]/
+      const specialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/
+      if (pass.length<minLen) return "Pass must be min 8 char"
+      if (!uppercase.test(pass)) return "Pass must contain uppercase letter"
+      if (!lowercase.test(pass)) return "Pass must contain lowercase letter"
+      if (!number.test(pass)) return "Pass must contain a number"
+      if (!specialChar.test(pass)) return "Pass must contain special character"
+      return null;
+    }
+
+    document.getElementById('password').addEventListener("input" , function(){
+      const password = this.value
+      const errorElement = document.getElementById('passwordError');
+      let passError = passStrength(password)
+      if (passError) {
+        errorElement.textContent = passError;
+      } else {
+        errorElement.textContent = '';
+      }
+    })
+    
+  </script>
+  
 </body>
 
 </html>

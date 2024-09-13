@@ -31,6 +31,9 @@
             placeholder="What's on your mind?"
           ></textarea>
         </div>
+        <% if (error === 'EmptyContent') { %>
+          <div class="error text-red-500 text-sm mb-1" id="error">Thought cannot be empty!</div>
+        <% } %>
         <div class="text-right">
           <button
             type="submit"
@@ -56,6 +59,8 @@
           />
           <div class="flex-1">
             <p class="text-gray-300 text-lg mb-2"><%= post.content %></p>
+            <% if (String(post.user.id) === String(user.id)) { %>
+              
             <div class="flex items-center mb-2">
               <a
                 class="text-blue-400 hover:text-blue-500 mr-4"
@@ -71,6 +76,7 @@
                 <i class="ri-delete-bin-7-line text-xl"></i>
               </a>
             </div>
+            <% } %>
 
             <div class="flex items-center text-gray-400 text-sm">
               <a
@@ -148,6 +154,10 @@
       function closeEditModal() {
         document.getElementById("editModal").classList.add("hidden");
       }
+      setTimeout(function() {
+        document.getElementById("error").style.display = "none";
+        window.location.href = window.location.pathname;
+      }, 2000);
     </script>
   </body>
 </html>
