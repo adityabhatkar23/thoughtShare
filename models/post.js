@@ -16,8 +16,7 @@ const postSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-});
-
+}, { timestamps: true });
 // Create User model
 const Post = mongoose.model("Post", postSchema);
 

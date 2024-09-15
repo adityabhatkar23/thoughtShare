@@ -59,7 +59,7 @@
           />
           <div class="flex-1">
             <p class="text-gray-300 text-lg mb-2"><%= post.content %></p>
-            <% if (String(post.user.id) === String(user.id)) { %>
+            <% if (post.user.id === user.id) { %>
               
             <div class="flex items-center mb-2">
               <a
@@ -81,11 +81,11 @@
             <div class="flex items-center text-gray-400 text-sm">
               <a
                 class="flex items-center text-blue-400 hover:text-blue-500 mr-4"
-                href="/like/<%= post.id %>"
+                href="/like/<%= post.id %>""
               >
-                <i class="ri-heart-3-fill text-red-500 text-2xl hidden"></i>
+                <i class="ri-heart-3-fill text-red-500 text-2xl <%= post.likes.includes(user._id) ? '' : 'hidden' %>"></i>
 
-                <i class="ri-heart-3-line text-red-100 text-2xl"></i>
+                <i class="ri-heart-3-line text-red-100 text-2xl  <%= post.likes.includes(user._id) ? 'hidden' : '' %>"></i>
 
                 <span class="ml-1"> <%= post.likes.length %> </span>
               </a>
@@ -94,7 +94,8 @@
             <h4 class="text-gray-100 font-semibold text-md mr-4">
               @<%= post.user.name %>
             </h4>
-            <span class="text-gray-500 text-sm"></span>
+            <span class="text-gray-500 text-sm" id="timeAgo-<%= post._id %>" data-createdat="<%= post.createdAt ? post.createdAt.toISOString() : '' %>"></span>
+
           </div>
         </div>
 
@@ -142,7 +143,7 @@
         </div>
       </div>
     </div>
-
+    <script src="/javascripts/script.js"></script>
     <script>
       function openEditModal(postId, currentContent) {
         document.getElementById("editForm").action = `/edit/${postId}`;

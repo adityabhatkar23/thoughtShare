@@ -35,7 +35,7 @@ app.post("/register", async (req, res) => {
   let user = await userModel.findOne({ email });
 
   if (user) {
-    return res.render("register", { registerError1: "Email already exist's" });
+    return res.render("register", { registerError1: "Email already exist's", registerError2:null });
   }
 
 
@@ -51,7 +51,7 @@ app.post("/register", async (req, res) => {
     password: hash,
     image: genAvt(name),
   });
-  const token = jwt.sign({ email }, "secret");
+  const token = jwt.sign({ email,_id: createdUser._id }, "secret");
   res.cookie("token", token, { httpOnly: true });
   res.redirect("/home");
   
@@ -68,7 +68,7 @@ app.post("/login", async (req, res) => {
 
   bcrypt.compare(password, user.password, (err, result) => {
     if (result) {
-      const token = jwt.sign({ email }, "secret");
+      const token = jwt.sign({ email, _id: user._id }, "secret");
       res.cookie("token", token , { httpOnly: true });
       res.redirect("/home");
     } else {
@@ -110,16 +110,17 @@ app.post("/post", isLog, async (req, res) => {
 });
 
 app.get("/like/:id", isLog, async (req, res) => {
-  let post = await postModel.findOne({ _id: req.params.id }).populate("user");
-
-  if (!post.likes.includes(req.user._id)) {
+  let post = await postModel.findById(req.params.id).populate("user");
+  const userIndex = post.likes.indexOf(req.user._id)
+  
+  if (userIndex === -1) {
     post.likes.push(req.user._id);
   } else {
-    post.likes.splice(post.likes.indexOf(req.userid), 1);
+    post.likes.splice(userIndex, 1);
   }
 
   await post.save();
-  res.redirect("/home");
+  res.redirect("/home")
 });
 
 app.post("/edit/:id", isLog, async (req, res) => {
@@ -159,5 +160,5 @@ function genAvt(seed) {
 
 const PORT =  process.env.PORT || 3000
 app.listen(PORT, () => {
-  console.log(`server runnning on http://localhost:${PORT}`);
+  console.log(`server runnning on port :${PORT}`);
 });
