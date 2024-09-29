@@ -38,7 +38,7 @@ app.post("/register", async (req, res) => {
     return res.render("register", { registerError1: "Email already exist's", registerError2:null });
   }
 
-
+  const username = email.split("@")[0];
  if (password !== confirm_password ){
   res.render("register", { registerError1:null,registerError2: "Confirm password doesn't matches"});}
 
@@ -50,6 +50,7 @@ app.post("/register", async (req, res) => {
     email,
     password: hash,
     image: genAvt(name),
+    username
   });
   const token = jwt.sign({ email,_id: createdUser._id }, "secret");
   res.cookie("token", token, { httpOnly: true });

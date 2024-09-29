@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
+  username:String,
   image:{
     type:String,
     default:"https://api.dicebear.com/9.x/lorelei/svg"
